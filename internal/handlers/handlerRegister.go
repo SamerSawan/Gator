@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/google/uuid"
@@ -18,8 +17,7 @@ func HandlerRegister(s *State, cmd Command) error {
 	userParams := database.CreateUserParams{ID: uuid.New(), CreatedAt: time.Now(), UpdatedAt: time.Now(), Name: cmd.Args[0]}
 	user, err := s.Db.CreateUser(context.Background(), userParams)
 	if err != nil {
-		fmt.Println("User already exists!")
-		os.Exit(1)
+		return fmt.Errorf("User already exists: %w", err)
 	}
 	s.Cfg.SetUser(cmd.Args[0])
 	fmt.Println(user)
