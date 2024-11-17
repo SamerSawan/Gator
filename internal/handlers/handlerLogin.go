@@ -6,7 +6,7 @@ import (
 )
 
 func HandlerLogin(s *State, cmd Command) error {
-	if len(cmd.Args) == 0 {
+	if len(cmd.Args) != 1 {
 		return errors.New("You must enter a username!")
 	}
 	err := s.Cfg.SetUser(cmd.Args[0])

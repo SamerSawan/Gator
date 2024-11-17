@@ -29,6 +29,7 @@ func main() {
 	commands := handlers.Commands{Cmds: make(map[string]func(*handlers.State, handlers.Command) error)}
 
 	commands.Register("login", handlers.HandlerLogin)
+	commands.Register("register", handlers.HandlerRegister)
 
 	args := os.Args
 	if len(args) < 2 {
