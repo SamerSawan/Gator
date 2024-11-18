@@ -7,6 +7,7 @@ import (
 	"html"
 	"io"
 	"net/http"
+	"time"
 
 	"github.com/samersawan/gator/internal/database"
 )
@@ -56,14 +57,39 @@ func fetchFeed(ctx context.Context, feedURL string) (*RSSFeed, error) {
 	return &feed, nil
 }
 
+func scrapeFeeds(s *State) error {
+	feed, err := s.Db.GetNextFeedToFetch(context.Background())
+	if err != nil {
+		return fmt.Errorf("Unable to fetch next feed: %w", err)
+	}
+	err = s.Db.MarkFeedFetched(context.Background(), feed.ID)
+	if err != nil {
+		return fmt.Errorf("Failed to mark feed as fetched: %w", err)
+	}
+
+	rssFeed, err := fetchFeed(context.Background(), feed.FeedID)
+	for _, v := range rssFeed.Channel.Item {
+		fmt.Println(v.Title)
+	}
+
+	return nil
+}
+
 func HandlerAgg(s *State, cmd Command, user database.User) error {
-	feed, err := fetchFeed(context.Background(), "https://www.wagslane.dev/index.xml")
+	if len(cmd.Args) != 1 {
+		return fmt.Errorf("Incorrect usage! Expected %s <time_between_reqs>", cmd.Name)
+	}
+	duration, err := time.ParseDuration(cmd.Args[0])
 	if err != nil {
 		return err
 	}
-
-	fmt.Println(feed)
-	fmt.Println("--------------------------------------------------------------")
-	fmt.Println(html.UnescapeString("I&rsquo;ve been writing code since 2010,"))
-	return nil
+	fmt.Printf("Collecting feeds every %s\n", duration)
+	ticker := time.NewTicker(duration)
+	for ; ; <-ticker.C {
+		fmt.Println("Scraping...")
+		err = scrapeFeeds(s)
+		if err != nil {
+			return err
+		}
+	}
 }
