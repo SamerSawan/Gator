@@ -3,13 +3,11 @@ package handlers
 import (
 	"context"
 	"fmt"
+
+	"github.com/samersawan/gator/internal/database"
 )
 
-func HandlerFollowing(s *State, cmd Command) error {
-	user, err := s.Db.GetUser(context.Background(), s.Cfg.CurrentUsername)
-	if err != nil {
-		return fmt.Errorf("Failed to fetch user: %w", err)
-	}
+func HandlerFollowing(s *State, cmd Command, user database.User) error {
 	feeds, err := s.Db.GetFeedFollowsForUser(context.Background(), user.ID)
 	if err != nil {
 		return fmt.Errorf("Failed to fetch feeds: %w", err)

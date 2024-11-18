@@ -9,7 +9,7 @@ import (
 	"github.com/samersawan/gator/internal/database"
 )
 
-func HandlerFollow(s *State, cmd Command) error {
+func HandlerFollow(s *State, cmd Command, user database.User) error {
 	if len(cmd.Args) != 1 {
 		return fmt.Errorf("Incorrect usage! Expected %s <url>", cmd.Name)
 	}

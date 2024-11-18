@@ -9,7 +9,7 @@ import (
 	"github.com/samersawan/gator/internal/database"
 )
 
-func HandlerAddFeed(s *State, cmd Command) error {
+func HandlerAddFeed(s *State, cmd Command, user database.User) error {
 	if len(cmd.Args) != 2 {
 		return fmt.Errorf("Incorrect usage. Expected %s <name> <url>", cmd.Name)
 	}

@@ -30,13 +30,14 @@ func main() {
 
 	commands.Register("login", handlers.HandlerLogin)
 	commands.Register("register", handlers.HandlerRegister)
-	commands.Register("reset", handlers.HandlerReset)
-	commands.Register("users", handlers.HandlerGetUsers)
-	commands.Register("agg", handlers.HandlerAgg)
-	commands.Register("addfeed", handlers.HandlerAddFeed)
-	commands.Register("feeds", handlers.HandlerFeeds)
-	commands.Register("follow", handlers.HandlerFollow)
-	commands.Register("following", handlers.HandlerFollowing)
+	commands.Register("reset", handlers.MiddlewareLoggedIn(handlers.HandlerReset))
+	commands.Register("users", handlers.MiddlewareLoggedIn(handlers.HandlerGetUsers))
+	commands.Register("agg", handlers.MiddlewareLoggedIn(handlers.HandlerAgg))
+	commands.Register("addfeed", handlers.MiddlewareLoggedIn(handlers.HandlerAddFeed))
+	commands.Register("feeds", handlers.MiddlewareLoggedIn(handlers.HandlerFeeds))
+	commands.Register("follow", handlers.MiddlewareLoggedIn(handlers.HandlerFollow))
+	commands.Register("following", handlers.MiddlewareLoggedIn(handlers.HandlerFollowing))
+	commands.Register("unfollow", handlers.MiddlewareLoggedIn(handlers.HandlerUnfollow))
 
 	args := os.Args
 	if len(args) < 2 {

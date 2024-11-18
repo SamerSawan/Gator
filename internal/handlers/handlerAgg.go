@@ -7,6 +7,8 @@ import (
 	"html"
 	"io"
 	"net/http"
+
+	"github.com/samersawan/gator/internal/database"
 )
 
 type RSSFeed struct {
@@ -54,7 +56,7 @@ func fetchFeed(ctx context.Context, feedURL string) (*RSSFeed, error) {
 	return &feed, nil
 }
 
-func HandlerAgg(s *State, cmd Command) error {
+func HandlerAgg(s *State, cmd Command, user database.User) error {
 	feed, err := fetchFeed(context.Background(), "https://www.wagslane.dev/index.xml")
 	if err != nil {
 		return err
