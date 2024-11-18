@@ -58,3 +58,6 @@ Using Gator is simple. Here are the commands you can use:
 * Agg: ```gator agg <time_between_reqs>```. Fetches posts from the feeds that are followed by the current user. Time between requests specifies how frequently it checks for new posts.
 * Browse: ```gator browse <limit>```. Allows you to browse posts saved for the current user. Can specifiy an optional limit. Default limit is 2 posts. 
 
+## Contributing
+Contributions are welcome! Feel free to submit issues or pull requests to improve the project.
+Also feel free to reach out to me to provide any feedback you deem fit at me@samersawan.com
