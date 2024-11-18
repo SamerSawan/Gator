@@ -38,6 +38,7 @@ func main() {
 	commands.Register("follow", handlers.MiddlewareLoggedIn(handlers.HandlerFollow))
 	commands.Register("following", handlers.MiddlewareLoggedIn(handlers.HandlerFollowing))
 	commands.Register("unfollow", handlers.MiddlewareLoggedIn(handlers.HandlerUnfollow))
+	commands.Register("browse", handlers.MiddlewareLoggedIn(handlers.HandlerBrowse))
 
 	args := os.Args
 	if len(args) < 2 {

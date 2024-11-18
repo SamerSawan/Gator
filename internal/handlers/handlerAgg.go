@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/samersawan/gator/internal/database"
 )
 
@@ -69,7 +70,23 @@ func scrapeFeeds(s *State) error {
 
 	rssFeed, err := fetchFeed(context.Background(), feed.FeedID)
 	for _, v := range rssFeed.Channel.Item {
-		fmt.Println(v.Title)
+		pub, err := time.Parse(time.RFC1123, v.PubDate)
+		if err != nil {
+			return err
+		}
+		_, err = s.Db.CreatePost(context.Background(), database.CreatePostParams{
+			ID:          uuid.New(),
+			CreatedAt:   time.Now(),
+			UpdatedAt:   time.Now(),
+			Title:       v.Title,
+			Url:         v.Link,
+			Description: v.Description,
+			PublishedAt: pub,
+			FeedUrl:     feed.FeedID,
+		})
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 
 	return nil
