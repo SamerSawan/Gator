@@ -1,5 +1,8 @@
 # Gator
-Gator is a Go-based application for managing and browsing RSS feeds. I built this application as part of a boot.dev tutorial. It allows users to subscribe to feeds as well as fetch and read posts.
+Gator is a Go-based application for managing and browsing RSS feeds. I built this application as part of a boot.dev course. It allows users to subscribe to feeds as well as fetch and read posts.
+
+<img width="1883" alt="image" src="https://github.com/user-attachments/assets/5060ca52-26ec-4341-a76c-f3dafba944fc">
+
 
 ## Features
 * Add and Manage RSS feeds
